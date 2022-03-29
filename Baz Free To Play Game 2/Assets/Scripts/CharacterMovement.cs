@@ -98,14 +98,16 @@ public class CharacterMovement : MonoBehaviour
                                         hitInformation.point.y - aimSquare.position.y
                 );
 
-                aimSquare.right = direction;
+                aimSquare.up = direction;
 
                 propGun.position = transform.position;
                 realGun.position = transform.position;
 
-                realGun.transform.rotation = aimSquare.rotation;
-
+                realGun.rotation = Quaternion.Lerp(realGun.rotation, aimSquare.rotation, gunRotSpeed);
                 transform.rotation = Quaternion.Lerp(transform.rotation, aimSquare.rotation, gunRotSpeed);
+
+               // transform.Rotate(0, 0, 90);
+               // realGun.Rotate(0, 0, 90);
 
                 /*
                             if (Input.GetMouseButton(0))

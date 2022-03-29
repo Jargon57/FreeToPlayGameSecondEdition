@@ -5,21 +5,21 @@ using Pathfinding;
 
 public class EnemyBehaviour : MonoBehaviour
 {
-    Transform player_;
-
     public float enemyDifficulty;
     public float DefaultSpeed = 200;
 
     public float nextWayPointDistance = 3;
 
-    Path path_;
-
-    Seeker seeker_;
-
     int currentWayPointIndex;
 
     bool reachedEndOfPath;
 
+    Transform player_;
+
+    Path path_;
+
+    Seeker seeker_;
+    
     Rigidbody2D rb;
 
     void Start()
@@ -51,7 +51,7 @@ public class EnemyBehaviour : MonoBehaviour
 
     void Update()
     {
-        transform.right = new Vector2(
+        transform.up = new Vector2(
             player_.position.x - transform.position.x,
             player_.position.y - transform.position.y
         );
