@@ -31,7 +31,7 @@ public class EnemyBehaviour : MonoBehaviour
 
         player_ = GameObject.FindGameObjectWithTag("Player").transform;
 
-        InvokeRepeating("updatePath", 0, 0.5f);
+        InvokeRepeating("updatePath", 0, 0.1f);
     }
 
     void updatePath()
@@ -59,28 +59,31 @@ public class EnemyBehaviour : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (path_ == null) return;
-
-        if (currentWayPointIndex >= path_.vectorPath.Count)
+        if (PlayerPrefs.GetInt("isInStore") == 0)
         {
-            reachedEndOfPath = true;
-            return;
-        }
-        else
-        {
-            reachedEndOfPath = false;
-        }
+            if (path_ == null) return;
 
-        Vector2 dir = ((Vector2)path_.vectorPath[currentWayPointIndex] - rb.position).normalized;
-        Vector2 force = dir * DefaultSpeed * enemyDifficulty;
+            if (currentWayPointIndex >= path_.vectorPath.Count)
+            {
+                reachedEndOfPath = true;
+                return;
+            }
+            else
+            {
+                reachedEndOfPath = false;
+            }
 
-        rb.AddForce(force);
+            Vector2 dir = ((Vector2)path_.vectorPath[currentWayPointIndex] - rb.position).normalized;
+            Vector2 force = dir * DefaultSpeed * enemyDifficulty;
 
-        float disance = Vector2.Distance (rb.position, path_.vectorPath[currentWayPointIndex]);
+            rb.AddForce(force);
 
-        if (disance < nextWayPointDistance)
-        {
-            currentWayPointIndex++;
+            float disance = Vector2.Distance(rb.position, path_.vectorPath[currentWayPointIndex]);
+
+            if (disance < nextWayPointDistance)
+            {
+                currentWayPointIndex++;
+            }
         }
     }
 

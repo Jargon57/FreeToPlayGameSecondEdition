@@ -7,8 +7,11 @@ public class BulletBehaviour : MonoBehaviour
     public float blastRadius;
     public float blastForce;
 
+    public float baseDamage;
+
     [Space]
-    public AnimationCurve falloff;
+    public AnimationCurve blastFalloff;
+    public AnimationCurve damageFalloff;
 
     [Space]
     public GameObject trail;
@@ -25,28 +28,40 @@ public class BulletBehaviour : MonoBehaviour
         trail_.position = transform.position;
     }
 
-    void OnCollisionEnter2D()
+    void OnCollisionEnter2D(Collision2D col_)
     {
+        /*
         //get a list of all colliders in a radius
         Collider2D[] cols_ = Physics2D.OverlapCircleAll(transform.position, blastRadius);
 
         foreach (Collider2D collider in cols_)
         {
-            if (collider.gameObject.CompareTag("Enemy") || collider.gameObject.CompareTag("Player"))
+            if (collider.gameObject.CompareTag("Enemy"))
             {
-                //calculate the direction the force should apply (DIRECTION)
                 Vector3 collisionPoint = collider.transform.position;
+
+                //calculate the direction the force should apply (DIRECTION)
                 Vector2 directionVector = new Vector2(
                     collisionPoint.x - transform.position.x,
                     collisionPoint.y - transform.position.y
                 );
                 //calculate how much force to add based on distance and blast force (FORCE)
-                float totalForce = falloff.Evaluate(Vector3.Distance(transform.position, collisionPoint)) * blastForce;
+                float totalForce = blastFalloff.Evaluate(Vector3.Distance(transform.position, collisionPoint)) * blastForce;
 
                 //add force in direction by force
-                collider.GetComponent<Rigidbody2D>().AddForce(directionVector * totalForce);
+                collider.GetComponentInParent<Rigidbody2D>().AddForce(directionVector * totalForce);
+
+                //calculate how much damage to apply based on the distance between me and u
+                float totalDamage = baseDamage * damageFalloff.Evaluate(Vector3.Distance(transform.position, collisionPoint));
             }
         }
+        */
+
+        if (col_.gameObject.CompareTag("Enemy"))
+        {
+            col_.gameObject.GetComponent<EnemyHealth>().takeDamage(baseDamage);
+        }
+
 
         trail_.GetComponent<ParticleSystem>().emissionRate = 0;
         Destroy(trail_.gameObject, 1f);
