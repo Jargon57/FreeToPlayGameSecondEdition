@@ -49,7 +49,7 @@ public class RangedEnemyBehaviour : MonoBehaviour
         canShoot = true;
 
         InvokeRepeating("updatePath", 0, 2);
-        Invoke("shoot", Random.Range(0f, 2f));
+        Invoke("shoot", Random.Range(0f, 5f));
     }
 
     void updatePath()
@@ -170,5 +170,6 @@ public class RangedEnemyBehaviour : MonoBehaviour
         canShoot = false;
         yield return new WaitForSeconds(reloadTime);
         canShoot = true;
+        shoot();
     }
 }

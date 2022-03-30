@@ -8,6 +8,8 @@ public class EnemyHealth : MonoBehaviour
     public float minSize;
     public float sizeLerpSpeed;
 
+    public float healthAsPercent;
+
     public GameObject deathParticle;
     public Transform sprite;
 
@@ -18,19 +20,23 @@ public class EnemyHealth : MonoBehaviour
 
     void Start()
     {
-        maxHealth = sprite.localScale.x;
-        minSize = sprite.localScale.x - 0.3f;
+        //maxHealth = sprite.localScale.x;
+       // minSize = sprite.localScale.x - 0.3f;
 
         currentHealth = maxHealth;
+
+        healthAsPercent = 1;
     }
 
     public void takeDamage(float damage_)
     {
         currentHealth -= damage_;
 
+        healthAsPercent = (currentHealth / maxHealth);
+
         Vector3 newScale = new Vector3(currentHealth, currentHealth, 1);
 
-        healthSprite.color = colourGradient.Evaluate(currentHealth);
+        healthSprite.color = colourGradient.Evaluate(healthAsPercent);
 
         //sprite.localScale = Vector3.Lerp (sprite.localScale, newScale, sizeLerpSpeed);
     }

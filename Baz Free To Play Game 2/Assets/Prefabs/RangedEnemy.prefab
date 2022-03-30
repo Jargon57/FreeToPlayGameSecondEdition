@@ -482,7 +482,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyDifficulty: 1
-  DefaultSpeed: 2
+  DefaultSpeed: 0.5
   nextWayPointDistance: 3
   distanceToRecalPos: 1
   reloadTime: 3
@@ -529,9 +529,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9aea8dd8a8a89c4c8a38689ac741e2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 0
+  maxHealth: 1.2
   minSize: 0
   sizeLerpSpeed: 0.5
+  healthAsPercent: 0
   deathParticle: {fileID: 0}
   sprite: {fileID: 2552914819235680418}
   healthSprite: {fileID: 3757089487445262645}

@@ -314,7 +314,7 @@ GameObject:
   - component: {fileID: 3757089488848795275}
   - component: {fileID: 3757089488848795274}
   m_Layer: 0
-  m_Name: MeleEnemy
+  m_Name: MeleEnemy 1
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -413,7 +413,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9aea8dd8a8a89c4c8a38689ac741e2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 1
+  maxHealth: 5
   minSize: 0
   sizeLerpSpeed: 0.5
   healthAsPercent: 0
