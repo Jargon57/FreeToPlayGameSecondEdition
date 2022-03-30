@@ -9,6 +9,8 @@ public class BulletBehaviour : MonoBehaviour
 
     public float baseDamage;
 
+    public bool isEnemyBullet;
+
     [Space]
     public AnimationCurve blastFalloff;
     public AnimationCurve damageFalloff;
@@ -57,14 +59,27 @@ public class BulletBehaviour : MonoBehaviour
         }
         */
 
-        if (col_.gameObject.CompareTag("Enemy"))
+        if (!isEnemyBullet)
         {
-            col_.gameObject.GetComponent<EnemyHealth>().takeDamage(baseDamage);
+            if (col_.gameObject.CompareTag("Enemy"))
+            {
+                col_.gameObject.GetComponent<EnemyHealth>().takeDamage(baseDamage);
+                FindObjectOfType<GameManager>().addMoney(1);
+            }
         }
 
+        if (col_.gameObject.CompareTag("Player"))
+        {
+            col_.gameObject.GetComponent<HealthSystem>().looseHealth();
+            Destroy(gameObject);
+        }
 
-        trail_.GetComponent<ParticleSystem>().emissionRate = 0;
-        Destroy(trail_.gameObject, 1f);
+        if (trail_ != null)
+        {
+            trail_.GetComponent<ParticleSystem>().emissionRate = 0;
+            Destroy(trail_.gameObject, 1f);
+        }
+        
         Destroy(gameObject);
     }
 }

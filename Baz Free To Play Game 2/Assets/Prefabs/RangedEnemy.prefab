@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1283699334}
   - component: {fileID: 1283699336}
   - component: {fileID: 1283699335}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: FirePos
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -120,7 +120,7 @@ GameObject:
   - component: {fileID: 2552914819235680418}
   - component: {fileID: 5368721291472648791}
   - component: {fileID: 2979475957170140817}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Square (1)
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -229,7 +229,7 @@ GameObject:
   - component: {fileID: 3757089487445262647}
   - component: {fileID: 3757089487445262645}
   - component: {fileID: 3757089487445262644}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Square
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -337,7 +337,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3757089488616147800}
   - component: {fileID: 3757089488616147801}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Aim Square
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -422,7 +422,7 @@ GameObject:
   - component: {fileID: 250385539}
   - component: {fileID: 3757089488848795275}
   - component: {fileID: 3757089488848795274}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: RangedEnemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -485,7 +485,7 @@ MonoBehaviour:
   DefaultSpeed: 2
   nextWayPointDistance: 3
   distanceToRecalPos: 1
-  reloadTime: 1
+  reloadTime: 3
   fireForce: 10
   bullet: {fileID: 2652761069362272371, guid: 858107b6567640046b1d923fb17d2463, type: 3}
   shootPos: {fileID: 1283699334}
@@ -575,7 +575,7 @@ GameObject:
   - component: {fileID: 8665983316865101979}
   - component: {fileID: 1677604832730309164}
   - component: {fileID: 7418738413000352618}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Square (2)
   m_TagString: Enemy
   m_Icon: {fileID: 0}

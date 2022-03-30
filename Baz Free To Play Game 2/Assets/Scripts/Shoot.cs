@@ -10,6 +10,8 @@ public class Shoot : MonoBehaviour
     public float shootForce;
     public float reloadtime;
 
+    public float damage;
+
     bool canShoot = true;
 
     void LateUpdate()
@@ -20,6 +22,14 @@ public class Shoot : MonoBehaviour
 
             shoot();
             StartCoroutine(reload());
+        }
+    }
+
+    public void increaseShootRate()
+    {
+        if (reloadtime > 0.2)
+        {
+            reloadtime -= 0.1f;
         }
     }
 
@@ -34,6 +44,8 @@ public class Shoot : MonoBehaviour
         GameObject bulletInstance = Instantiate(bullet, shootPos.position, shootPos.rotation);
 
         bulletInstance.GetComponent<Rigidbody2D>().AddForce(bulletInstance.transform.right * shootForce);
+
+        bulletInstance.GetComponent<BulletBehaviour>().baseDamage = damage;
 
         //Destroy(bulletInstance, 2f);
     }

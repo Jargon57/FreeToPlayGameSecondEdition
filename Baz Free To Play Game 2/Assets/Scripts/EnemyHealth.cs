@@ -39,13 +39,14 @@ public class EnemyHealth : MonoBehaviour
     {
         if (currentHealth < 0)
         {
-die();
-        }   
+            die();
+        }
     }
 
     void die()
     {
         //insan
+        FindObjectOfType<GameManager>().addMoney(10);
         Destroy(gameObject);
     }
 }

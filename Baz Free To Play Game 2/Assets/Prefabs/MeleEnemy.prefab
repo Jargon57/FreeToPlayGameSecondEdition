@@ -371,7 +371,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyDifficulty: 1
-  DefaultSpeed: 1
+  DefaultSpeed: 2
   nextWayPointDistance: 3
 --- !u!114 &3757089488848795275
 MonoBehaviour:

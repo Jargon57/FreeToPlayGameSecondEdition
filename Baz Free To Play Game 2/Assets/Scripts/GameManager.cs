@@ -8,10 +8,14 @@ public class GameManager : MonoBehaviour
     public bool isInGame;
     public bool isInStore;
 
+    public int money;
+
     [Header("UI Elements")]
     [Space]
     public GameObject gameUIElements;
     public GameObject menuUIElements;
+
+    public Text moneyText;
 
     [Space]
     public GameObject player;
@@ -19,6 +23,7 @@ public class GameManager : MonoBehaviour
     [Space]
     public Animator shopAni;
     public Animator menuAni;
+    public Animator moneyAni;
 
     void Start()
     {
@@ -27,6 +32,9 @@ public class GameManager : MonoBehaviour
         player.SetActive(false);
 
         PlayerPrefs.SetInt("isInStore", 0);
+
+        money = PlayerPrefs.GetInt("money");
+        moneyText.text = "$" + money.ToString("0");
     }
 
     public void finishGame()
@@ -41,7 +49,7 @@ public class GameManager : MonoBehaviour
     public void startGame()
     {
         //load game Data
-
+        money = PlayerPrefs.GetInt("money");
         //menuUIElements.SetActive(false);
         // gameUIElements.SetActive(true);
 
@@ -50,6 +58,17 @@ public class GameManager : MonoBehaviour
         isInGame = true;
 
         player.SetActive(true);
+    }
+
+    public void addMoney(int amount)
+    {
+        money += amount;
+
+        PlayerPrefs.SetInt("money", money);
+
+        moneyText.text = "$" + money.ToString("0");
+
+        moneyAni.Play("MoneyIdle");
     }
 
     public void enterStore()

@@ -24,7 +24,7 @@ public class RangedEnemyBehaviour : MonoBehaviour
     public GameObject bullet;
     public Transform shootPos;
 
-    Transform target;
+    GameObject[] targets;
     Transform player;
 
     Path path_;
@@ -33,14 +33,14 @@ public class RangedEnemyBehaviour : MonoBehaviour
 
     Rigidbody2D rb;
 
-    void Start()
+    async void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         seeker_ = GetComponent<Seeker>();
 
         enemyDifficulty = Random.Range(1f, 4f);
 
-        target = GameObject.FindGameObjectWithTag("rangedTarget").transform;
+        targets = GameObject.FindGameObjectsWithTag("rangedTarget");
         player = GameObject.FindGameObjectWithTag("Player").transform;
 
         updatePath();
@@ -49,11 +49,12 @@ public class RangedEnemyBehaviour : MonoBehaviour
         canShoot = true;
 
         InvokeRepeating("updatePath", 0, 2);
+        Invoke("shoot", Random.Range(0f, 2f));
     }
 
     void updatePath()
     {
-        seeker_.StartPath(rb.position, target.position, hasFinishedCalculating);
+        seeker_.StartPath(rb.position, targets [Random.Range (0, targets.Length)].transform.position, hasFinishedCalculating);
     }
 
     void hasFinishedCalculating(Path p)
@@ -84,12 +85,6 @@ public class RangedEnemyBehaviour : MonoBehaviour
     {
         if (PlayerPrefs.GetInt("isInStore") == 0)
         {
-            if (canShoot)
-            {
-                shoot();
-                StartCoroutine(reload());
-            }
-
             if (path_ == null) return;
 
             if (currentWayPointIndex >= path_.vectorPath.Count)
@@ -130,24 +125,34 @@ public class RangedEnemyBehaviour : MonoBehaviour
 
     void shoot()
     {
-        Vector2 dir = new Vector2(
-             player.position.x - shootPos.position.x,
-             player.position.y - shootPos.position.y
-             );
-
-        RaycastHit2D rayHitInfo = Physics2D.Raycast(shootPos.position, transform.up, Mathf.Infinity, 8);
-
-        Debug.DrawLine(shootPos.position, transform.up);
-
-        //see if we have line of sight with player
-        if (rayHitInfo.collider !=null)
+        if (canShoot && PlayerPrefs.GetInt("isInStore") == 0)
         {
-            Debug.Log(rayHitInfo.transform.gameObject);
-            if (rayHitInfo.transform.gameObject.CompareTag("Player"))
-            {
-                GameObject bulletInstance_ = Instantiate(bullet, shootPos.position, shootPos.rotation);
-                bulletInstance_.GetComponent<Rigidbody2D>().AddForce(shootPos.up * fireForce);
-            }
+            StartCoroutine(reload());
+
+            Vector2 dir = new Vector2(
+                 player.position.x - shootPos.position.x,
+                 player.position.y - shootPos.position.y
+                 );
+
+            // RaycastHit2D rayHitInfo = Physics2D.Raycast(shootPos.position, transform.up, Mathf.Infinity, 8);
+
+            //Debug.DrawLine(shootPos.position, transform.up);
+
+            /*
+                    //see if we have line of sight with player
+                    if (rayHitInfo.collider !=null)
+                    {
+                        Debug.Log(rayHitInfo.transform.gameObject);
+                        if (rayHitInfo.transform.gameObject.CompareTag("Player"))
+                        {
+                            GameObject bulletInstance_ = Instantiate(bullet, shootPos.position, shootPos.rotation);
+                            bulletInstance_.GetComponent<Rigidbody2D>().AddForce(shootPos.up * fireForce);
+                        }
+                    }
+                    */
+
+            GameObject bulletInstance_ = Instantiate(bullet, shootPos.position, shootPos.rotation);
+            bulletInstance_.GetComponent<Rigidbody2D>().AddForce(shootPos.up * fireForce);
         }
     }
 
