@@ -32,6 +32,7 @@ public class GameManager : MonoBehaviour
         player.SetActive(false);
 
         PlayerPrefs.SetInt("isInStore", 0);
+        PlayerPrefs.SetInt("isInGame", 0);
 
         money = PlayerPrefs.GetInt("money");
         moneyText.text = "$" + money.ToString("0");
@@ -41,7 +42,9 @@ public class GameManager : MonoBehaviour
     {
         menuAni.SetBool("isInGame", false);
 
-        player.SetActive(true);
+        PlayerPrefs.SetInt("isInStore", 0);
+
+        player.SetActive(false);
 
         isInGame = false;
     }
@@ -54,6 +57,7 @@ public class GameManager : MonoBehaviour
         // gameUIElements.SetActive(true);
 
         menuAni.SetBool("isInGame", true);
+        PlayerPrefs.SetInt("isInStore", 1);
 
         isInGame = true;
 
@@ -94,6 +98,18 @@ public class GameManager : MonoBehaviour
             {
                 PlayerPrefs.SetInt("isInStore", 1);
             }
+        }
+    }
+
+    public bool isInGameScreen()
+    {
+        if (isInGame && !isInStore)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
 }

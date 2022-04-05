@@ -14,7 +14,6 @@ public class RangedEnemyBehaviour : MonoBehaviour
     public float reloadTime;
     public float fireForce;
 
-    Vector3 lastPos;
     float distanceMoved;
     int currentWayPointIndex;
 
@@ -22,6 +21,8 @@ public class RangedEnemyBehaviour : MonoBehaviour
     bool canShoot;
 
     public GameObject bullet;
+    public GameObject deathExplosion;
+
     public Transform shootPos;
 
     GameObject[] targets;
@@ -30,8 +31,12 @@ public class RangedEnemyBehaviour : MonoBehaviour
     Path path_;
 
     Seeker seeker_;
+    Vector3 lastPos;
 
     Rigidbody2D rb;
+
+    GameManager gameManager;
+
 
     async void Start()
     {
@@ -42,6 +47,7 @@ public class RangedEnemyBehaviour : MonoBehaviour
 
         targets = GameObject.FindGameObjectsWithTag("rangedTarget");
         player = GameObject.FindGameObjectWithTag("Player").transform;
+        gameManager = FindObjectOfType<GameManager>();
 
         updatePath();
 
@@ -54,7 +60,7 @@ public class RangedEnemyBehaviour : MonoBehaviour
 
     void updatePath()
     {
-        seeker_.StartPath(rb.position, targets [Random.Range (0, targets.Length)].transform.position, hasFinishedCalculating);
+        seeker_.StartPath(rb.position, targets[Random.Range(0, targets.Length)].transform.position, hasFinishedCalculating);
     }
 
     void hasFinishedCalculating(Path p)
@@ -83,8 +89,9 @@ public class RangedEnemyBehaviour : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (PlayerPrefs.GetInt("isInStore") == 0)
+        if (gameManager.isInGameScreen())
         {
+            rb.drag = 1;
             if (path_ == null) return;
 
             if (currentWayPointIndex >= path_.vectorPath.Count)
@@ -116,6 +123,11 @@ public class RangedEnemyBehaviour : MonoBehaviour
                 currentWayPointIndex++;
             }
         }
+        else
+        {
+            rb.drag = 200;
+
+        }
 
         if (reachedEndOfPath)
         {
@@ -125,7 +137,7 @@ public class RangedEnemyBehaviour : MonoBehaviour
 
     void shoot()
     {
-        if (canShoot && PlayerPrefs.GetInt("isInStore") == 0)
+        if (canShoot && gameManager.isInGameScreen())
         {
             StartCoroutine(reload());
 
@@ -160,6 +172,10 @@ public class RangedEnemyBehaviour : MonoBehaviour
     {
         if (collision_.gameObject.CompareTag("Player"))
         {
+            GameObject deathexplosion_ = Instantiate(deathExplosion, transform.position, transform.rotation);
+
+            Destroy(deathexplosion_, 2f);
+
             collision_.gameObject.GetComponent<HealthSystem>().looseHealth();
             Destroy(gameObject);
         }

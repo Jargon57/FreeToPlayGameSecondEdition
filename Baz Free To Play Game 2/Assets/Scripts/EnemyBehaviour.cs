@@ -10,6 +10,8 @@ public class EnemyBehaviour : MonoBehaviour
 
     public float nextWayPointDistance = 3;
 
+    public GameObject deathExplosion;
+
     int currentWayPointIndex;
 
     bool reachedEndOfPath;
@@ -22,6 +24,8 @@ public class EnemyBehaviour : MonoBehaviour
     
     Rigidbody2D rb;
 
+    GameManager gameManager;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -32,6 +36,8 @@ public class EnemyBehaviour : MonoBehaviour
         player_ = GameObject.FindGameObjectWithTag("Player").transform;
 
         InvokeRepeating("updatePath", 0, 0.1f);
+
+        gameManager = FindObjectOfType<GameManager>();
     }
 
     void updatePath()
@@ -59,8 +65,9 @@ public class EnemyBehaviour : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (PlayerPrefs.GetInt("isInStore") == 0)
+        if (gameManager.isInGameScreen())
         {
+            rb.drag = 1;
             if (path_ == null) return;
 
             if (currentWayPointIndex >= path_.vectorPath.Count)
@@ -84,6 +91,9 @@ public class EnemyBehaviour : MonoBehaviour
             {
                 currentWayPointIndex++;
             }
+        }else
+        {
+            rb.drag = 200;
         }
     }
 
@@ -92,6 +102,11 @@ public class EnemyBehaviour : MonoBehaviour
         if (collision_.gameObject.CompareTag("Player"))
         {
             collision_.gameObject.GetComponent<HealthSystem>().looseHealth();
+
+            GameObject deathexplosion_ = Instantiate(deathExplosion, transform.position, transform.rotation);
+
+            Destroy(deathexplosion_, 2f);
+
             Destroy(gameObject);
         }
     }

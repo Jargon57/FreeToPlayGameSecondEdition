@@ -17,6 +17,8 @@ public class BulletBehaviour : MonoBehaviour
 
     [Space]
     public GameObject trail;
+    public GameObject explosion;
+    public GameObject enemyExplosion;
 
     Transform trail_;
 
@@ -79,7 +81,21 @@ public class BulletBehaviour : MonoBehaviour
             trail_.GetComponent<ParticleSystem>().emissionRate = 0;
             Destroy(trail_.gameObject, 1f);
         }
-        
+
+        if (!isEnemyBullet)
+        {
+            GameObject deathexplosion_ = Instantiate(explosion, transform.position, transform.rotation);
+            Destroy(deathexplosion_, 2f);
+        }
+        else
+        {
+            GameObject deathexplosion_ = Instantiate(enemyExplosion, transform.position, transform.rotation);
+            Destroy(deathexplosion_, 2f);
+        }
+
+
+
+
         Destroy(gameObject);
     }
 }

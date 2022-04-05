@@ -6,6 +6,8 @@ public class Shoot : MonoBehaviour
 {
     public GameObject bullet;
     public Transform shootPos;
+    public Animator crossHairAni;
+    public SpriteRenderer crosshairRend;
 
     public float shootForce;
     public float reloadtime;
@@ -16,7 +18,25 @@ public class Shoot : MonoBehaviour
 
     void LateUpdate()
     {
-        if (canShoot && Input.GetMouseButton (0) && PlayerPrefs.GetInt ("isInStore") == 0 && !Input.GetKey (KeyCode.LeftShift))
+        if (Input.GetMouseButton(0))
+        {
+            crossHairAni.SetBool("IsShooting", true);
+        }
+        else
+        {
+            crossHairAni.SetBool("IsShooting", false);
+        }
+
+        if (canShoot)
+        {
+            crosshairRend.color = Color.Lerp(crosshairRend.color, Color.green, 0.1f);
+        }
+        else
+        {
+            crosshairRend.color = Color.Lerp(crosshairRend.color, Color.red, 0.1f);
+        }
+
+        if (canShoot && Input.GetMouseButton(0) && PlayerPrefs.GetInt("isInStore") == 0 && !Input.GetKey(KeyCode.LeftShift))
         {
             canShoot = false;
 

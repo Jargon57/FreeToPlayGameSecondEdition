@@ -4961,6 +4961,7 @@ MonoBehaviour:
   blastRadius: 1
   blastForce: 100
   baseDamage: 0.1
+  isEnemyBullet: 0
   blastFalloff:
     serializedVersion: 2
     m_Curve:
@@ -5010,3 +5011,5 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   trail: {fileID: 1052325296788205058, guid: e3c5a10c69a325b4090da1b4b4915e99, type: 3}
+  explosion: {fileID: 4220323075403382501, guid: 8ca49b50a05fb264b924ffea160c9563, type: 3}
+  enemyExplosion: {fileID: 4863342128419971157, guid: 4ebb899228c5bdf42b36a8fd4b6f24f5, type: 3}

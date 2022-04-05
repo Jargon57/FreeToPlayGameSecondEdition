@@ -21,7 +21,7 @@ public class EnemyHealth : MonoBehaviour
     void Start()
     {
         //maxHealth = sprite.localScale.x;
-       // minSize = sprite.localScale.x - 0.3f;
+        // minSize = sprite.localScale.x - 0.3f;
 
         currentHealth = maxHealth;
 
@@ -52,6 +52,10 @@ public class EnemyHealth : MonoBehaviour
     void die()
     {
         //insan
+        GameObject deathexplosion_ = Instantiate(deathParticle, transform.position, transform.rotation);
+
+        Destroy(deathexplosion_, 2f);
+
         FindObjectOfType<GameManager>().addMoney(10);
         Destroy(gameObject);
     }

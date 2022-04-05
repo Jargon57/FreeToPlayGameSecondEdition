@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 282804753}
   - component: {fileID: 282804755}
   - component: {fileID: 282804754}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: Smoke
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4826,8 +4826,8 @@ GameObject:
   - component: {fileID: 6704668173226683421}
   - component: {fileID: 84210581127235341}
   - component: {fileID: -254958744586948953}
-  m_Layer: 9
-  m_Name: EnemyBullet
+  m_Layer: 0
+  m_Name: Bullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4911,7 +4911,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 0.01
+  m_Mass: 0.001
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 0
@@ -4961,7 +4961,7 @@ MonoBehaviour:
   blastRadius: 1
   blastForce: 100
   baseDamage: 0.1
-  isEnemyBullet: 1
+  isEnemyBullet: 0
   blastFalloff:
     serializedVersion: 2
     m_Curve:
@@ -5010,6 +5010,5 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  trail: {fileID: 1052325296788205058, guid: 740f505eece009f43bc04fea418011ca, type: 3}
+  trail: {fileID: 1052325296788205058, guid: e3c5a10c69a325b4090da1b4b4915e99, type: 3}
   explosion: {fileID: 4220323075403382501, guid: 8ca49b50a05fb264b924ffea160c9563, type: 3}
-  enemyExplosion: {fileID: 4863342128419971157, guid: 4ebb899228c5bdf42b36a8fd4b6f24f5, type: 3}

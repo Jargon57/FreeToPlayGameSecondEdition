@@ -488,6 +488,7 @@ MonoBehaviour:
   reloadTime: 0.2
   fireForce: 10
   bullet: {fileID: 2652761069362272371, guid: 858107b6567640046b1d923fb17d2463, type: 3}
+  deathExplosion: {fileID: 5146953565921719717, guid: ed92ae247c3792a4e863f57997018f85, type: 3}
   shootPos: {fileID: 1283699334}
 --- !u!114 &3757089488848795275
 MonoBehaviour:
@@ -533,7 +534,7 @@ MonoBehaviour:
   minSize: 0
   sizeLerpSpeed: 0.5
   healthAsPercent: 0
-  deathParticle: {fileID: 0}
+  deathParticle: {fileID: 5146953565921719717, guid: ed92ae247c3792a4e863f57997018f85, type: 3}
   sprite: {fileID: 2552914819235680418}
   healthSprite: {fileID: 3757089487445262645}
   colourGradient:

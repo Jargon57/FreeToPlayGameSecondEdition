@@ -31,6 +31,11 @@ public class HealthSystem : MonoBehaviour
     public void looseHealth()
     {
         currentHealth -= 5;
+
+        if (currentHealth <= 0)
+        {
+            dieAndReset();
+        }
     }
 
     public void dieAndReset()

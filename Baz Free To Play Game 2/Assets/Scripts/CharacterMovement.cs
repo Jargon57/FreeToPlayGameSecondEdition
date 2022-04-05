@@ -6,10 +6,12 @@ public class CharacterMovement : MonoBehaviour
 {
     Rigidbody2D rb;
     Camera cam;
+    GameManager gameManager;
 
     public Transform aimSquare;
     public Transform realGun;
     public Transform propGun;
+    public Transform crosshair;
 
     public float maxSpeed;
     public float accelerationSpeed;
@@ -32,6 +34,7 @@ public class CharacterMovement : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        gameManager = FindObjectOfType<GameManager>();
 
         cam = Camera.main;
 
@@ -40,8 +43,10 @@ public class CharacterMovement : MonoBehaviour
 
     void Update()
     {
-        if (PlayerPrefs.GetInt("isInStore") == 0)
+        if (gameManager.isInGameScreen())
         {
+            rb.drag = 10;
+
             if (Input.GetKey(KeyCode.A))
             {
                 leftRight = -1;
@@ -80,7 +85,8 @@ public class CharacterMovement : MonoBehaviour
             if (Input.GetKey(KeyCode.LeftShift))
             {
                 boost = boostAmount;
-            }else
+            }
+            else
             {
                 boost = 1;
             }
@@ -93,6 +99,8 @@ public class CharacterMovement : MonoBehaviour
 
             if (hitInformation.collider != null)
             {
+                crosshair.position = hitInformation.point;
+
                 Vector2 direction = new Vector2(
                                         hitInformation.point.x - aimSquare.position.x,
                                         hitInformation.point.y - aimSquare.position.y
@@ -106,8 +114,8 @@ public class CharacterMovement : MonoBehaviour
                 realGun.rotation = Quaternion.Lerp(realGun.rotation, aimSquare.rotation, gunRotSpeed);
                 transform.rotation = Quaternion.Lerp(transform.rotation, aimSquare.rotation, gunRotSpeed);
 
-               // transform.Rotate(0, 0, 90);
-               // realGun.Rotate(0, 0, 90);
+                // transform.Rotate(0, 0, 90);
+                // realGun.Rotate(0, 0, 90);
 
                 /*
                             if (Input.GetMouseButton(0))
@@ -122,6 +130,10 @@ public class CharacterMovement : MonoBehaviour
                             */
 
             }
+        }
+        else
+        {
+            rb.drag = 10000;
         }
     }
 
