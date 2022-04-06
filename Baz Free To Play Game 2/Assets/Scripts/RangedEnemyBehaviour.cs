@@ -36,9 +36,10 @@ public class RangedEnemyBehaviour : MonoBehaviour
     Rigidbody2D rb;
 
     GameManager gameManager;
+    RoundManager roundManager;
 
 
-    async void Start()
+    void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         seeker_ = GetComponent<Seeker>();
@@ -48,6 +49,7 @@ public class RangedEnemyBehaviour : MonoBehaviour
         targets = GameObject.FindGameObjectsWithTag("rangedTarget");
         player = GameObject.FindGameObjectWithTag("Player").transform;
         gameManager = FindObjectOfType<GameManager>();
+        roundManager = FindObjectOfType<RoundManager>();
 
         updatePath();
 
@@ -175,6 +177,8 @@ public class RangedEnemyBehaviour : MonoBehaviour
             GameObject deathexplosion_ = Instantiate(deathExplosion, transform.position, transform.rotation);
 
             Destroy(deathexplosion_, 2f);
+
+            roundManager.enemiesOnScreen.Remove(gameObject);
 
             collision_.gameObject.GetComponent<HealthSystem>().looseHealth();
             Destroy(gameObject);

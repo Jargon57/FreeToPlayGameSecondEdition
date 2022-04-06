@@ -16,6 +16,8 @@ public class EnemyHealth : MonoBehaviour
     public SpriteRenderer healthSprite;
     public Gradient colourGradient;
 
+    RoundManager roundManager;
+
     float currentHealth;
 
     void Start()
@@ -26,6 +28,8 @@ public class EnemyHealth : MonoBehaviour
         currentHealth = maxHealth;
 
         healthAsPercent = 1;
+
+        roundManager.enemiesOnScreen.Remove(gameObject);
     }
 
     public void takeDamage(float damage_)
@@ -57,6 +61,9 @@ public class EnemyHealth : MonoBehaviour
         Destroy(deathexplosion_, 2f);
 
         FindObjectOfType<GameManager>().addMoney(10);
+
+        roundManager.enemiesOnScreen.Remove(gameObject);
+
         Destroy(gameObject);
     }
 }

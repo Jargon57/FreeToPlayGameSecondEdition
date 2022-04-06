@@ -7,7 +7,6 @@ public class EnemyBehaviour : MonoBehaviour
 {
     public float enemyDifficulty;
     public float DefaultSpeed = 200;
-
     public float nextWayPointDistance = 3;
 
     public GameObject deathExplosion;
@@ -25,6 +24,7 @@ public class EnemyBehaviour : MonoBehaviour
     Rigidbody2D rb;
 
     GameManager gameManager;
+    RoundManager roundManager;
 
     void Start()
     {
@@ -38,6 +38,9 @@ public class EnemyBehaviour : MonoBehaviour
         InvokeRepeating("updatePath", 0, 0.1f);
 
         gameManager = FindObjectOfType<GameManager>();
+        roundManager = FindObjectOfType<RoundManager>();
+
+        roundManager.enemiesOnScreen.Add(gameObject);
     }
 
     void updatePath()
@@ -106,6 +109,8 @@ public class EnemyBehaviour : MonoBehaviour
             GameObject deathexplosion_ = Instantiate(deathExplosion, transform.position, transform.rotation);
 
             Destroy(deathexplosion_, 2f);
+
+            roundManager.enemiesOnScreen.Remove(gameObject);
 
             Destroy(gameObject);
         }

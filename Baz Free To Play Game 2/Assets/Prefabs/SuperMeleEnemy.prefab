@@ -314,7 +314,7 @@ GameObject:
   - component: {fileID: 3757089488848795275}
   - component: {fileID: 3757089488848795274}
   m_Layer: 0
-  m_Name: MeleEnemy 1
+  m_Name: SuperMeleEnemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -329,7 +329,7 @@ Transform:
   m_GameObject: {fileID: 3757089488848795277}
   m_LocalRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
   m_LocalPosition: {x: 26.126999, y: -2.517, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 1}
   m_Children:
   - {fileID: 3757089488616147800}
   - {fileID: 3757089487445262647}
@@ -371,7 +371,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyDifficulty: 1
-  DefaultSpeed: 2
+  DefaultSpeed: 0.5
   nextWayPointDistance: 3
   deathExplosion: {fileID: 5146953565921719717, guid: ed92ae247c3792a4e863f57997018f85, type: 3}
 --- !u!114 &3757089488848795275
@@ -414,7 +414,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9aea8dd8a8a89c4c8a38689ac741e2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 5
+  maxHealth: 50
   minSize: 0
   sizeLerpSpeed: 0.5
   healthAsPercent: 0
