@@ -20,11 +20,11 @@ public class EnemyBehaviour : MonoBehaviour
     Path path_;
 
     Seeker seeker_;
-    
+
     Rigidbody2D rb;
 
     GameManager gameManager;
-    RoundManager roundManager;
+    [SerializeField] RoundManager roundManager;
 
     void Start()
     {
@@ -94,10 +94,22 @@ public class EnemyBehaviour : MonoBehaviour
             {
                 currentWayPointIndex++;
             }
-        }else
+        }
+        else
         {
             rb.drag = 200;
         }
+    }
+
+    public void Die()
+    {
+        GameObject deathexplosion_ = Instantiate(deathExplosion, transform.position, transform.rotation);
+
+        Destroy(deathexplosion_, 2f);
+
+        roundManager.enemiesOnScreen.Remove(gameObject);
+
+        Destroy(gameObject);
     }
 
     void OnCollisionEnter2D(Collision2D collision_)
@@ -106,13 +118,8 @@ public class EnemyBehaviour : MonoBehaviour
         {
             collision_.gameObject.GetComponent<HealthSystem>().looseHealth();
 
-            GameObject deathexplosion_ = Instantiate(deathExplosion, transform.position, transform.rotation);
-
-            Destroy(deathexplosion_, 2f);
-
-            roundManager.enemiesOnScreen.Remove(gameObject);
-
-            Destroy(gameObject);
+            Die();
         }
     }
+
 }

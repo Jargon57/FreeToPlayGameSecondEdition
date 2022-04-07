@@ -29,6 +29,8 @@ public class EnemyHealth : MonoBehaviour
 
         healthAsPercent = 1;
 
+        roundManager = FindObjectOfType<RoundManager>();
+
         roundManager.enemiesOnScreen.Remove(gameObject);
     }
 

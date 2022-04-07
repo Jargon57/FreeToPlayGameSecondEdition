@@ -5,17 +5,21 @@ using UnityEngine;
 public class DoorOpening : MonoBehaviour
 {
 
-    private Animator animator;
-    public Animator Doors;
+    public Animator animator;
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-
-        if (collision.CompareTag("Enemy"))
+        if (collision.CompareTag("Enemy") || collision.CompareTag("Player"))
         {
-
-            animator.Play("OpenDoor");
-
+            animator.SetBool("OpenDoor", true);
         }
+    }
+
+    void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.CompareTag("Enemy") || other.CompareTag("Player"))
+        {
+            animator.SetBool("OpenDoor", false);
+        } 
     }
 }

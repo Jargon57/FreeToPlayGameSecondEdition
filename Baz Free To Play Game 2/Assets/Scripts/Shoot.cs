@@ -52,11 +52,11 @@ public class Shoot : MonoBehaviour
         }
     }
 
-    public void increaseShootRate()
+    public void increaseShootRate(float amount)
     {
         if (reloadtime > 0.2)
         {
-            reloadtime -= 0.1f;
+            reloadtime -= amount;
         }
     }
 

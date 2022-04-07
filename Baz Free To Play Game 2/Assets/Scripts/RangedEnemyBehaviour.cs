@@ -170,18 +170,25 @@ public class RangedEnemyBehaviour : MonoBehaviour
         }
     }
 
+    public void Die()
+    {
+        GameObject deathexplosion_ = Instantiate(deathExplosion, transform.position, transform.rotation);
+
+        Destroy(deathexplosion_, 2f);
+
+        roundManager.enemiesOnScreen.Remove(gameObject);
+
+        Destroy(gameObject);
+    }
+
     void OnCollisionEnter2D(Collision2D collision_)
     {
         if (collision_.gameObject.CompareTag("Player"))
         {
-            GameObject deathexplosion_ = Instantiate(deathExplosion, transform.position, transform.rotation);
-
-            Destroy(deathexplosion_, 2f);
-
-            roundManager.enemiesOnScreen.Remove(gameObject);
-
             collision_.gameObject.GetComponent<HealthSystem>().looseHealth();
-            Destroy(gameObject);
+
+            Die();
+
         }
     }
 

@@ -2,13 +2,39 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.IO;
+
+public struct gameData
+{
+    public int money;
+    public float currentShootSpeed;
+    public int currentMaxHealth;
+    public float currentBulletDamage;
+    public float currentMaxSpeed;
+    public int highestRound;
+
+    public int shootSpeedLevel;
+    public int maxHealthLevel;
+    public int BulletDamageLevel;
+    public int maxSpeedLevel;
+}
 
 public class GameManager : MonoBehaviour
 {
+    const string fileName = "saveData.Json";
+    string filePath;
+    string completedfilePath;
+
     public bool isInGame;
     public bool isInStore;
 
     public int money;
+
+    [Space]
+    public float defaultShootSpeed;
+    public int defaultMaxHealth;
+    public float defaultBulletDamage;
+    public float defaultMaxMoveSpeed;
 
     [Header("UI Elements")]
     [Space]
@@ -25,6 +51,25 @@ public class GameManager : MonoBehaviour
     public Animator menuAni;
     public Animator moneyAni;
 
+    public Shoot gunBehaviour;
+    public RoundManager roundManager;
+    public StoreManager storeManager;
+
+    gameData gD;
+
+    void Awake()
+    {
+        gD = new gameData();
+        filePath = Application.persistentDataPath;
+        completedfilePath = filePath + "/" + fileName;
+
+        gunBehaviour = FindObjectOfType<Shoot>();
+        roundManager = FindObjectOfType<RoundManager>();
+        storeManager = FindObjectOfType<StoreManager>();
+
+        loadGameData();
+    }
+
     void Start()
     {
         isInGame = false;
@@ -34,8 +79,68 @@ public class GameManager : MonoBehaviour
         PlayerPrefs.SetInt("isInStore", 0);
         PlayerPrefs.SetInt("isInGame", 0);
 
-        money = PlayerPrefs.GetInt("money");
+        //money = PlayerPrefs.GetInt("money");
         moneyText.text = "$" + money.ToString("0");
+    }
+
+    public void saveGameData()
+    {
+        gD.money = money;
+        gD.currentShootSpeed = gunBehaviour.reloadtime;
+        gD.currentMaxHealth = player.GetComponent<HealthSystem>().maxHealth;
+        gD.currentBulletDamage = gunBehaviour.damage;
+        gD.currentMaxSpeed = player.GetComponent<CharacterMovement>().maxSpeed;
+        gD.highestRound = roundManager.highestRound;
+
+        gD.shootSpeedLevel = storeManager.fireSpeedLevel;
+        //gD.maxHealthLevel
+        gD.BulletDamageLevel = storeManager.damageLevel;
+        gD.maxSpeedLevel = storeManager.moveSpeedLevel;
+
+        string savedJsonData = JsonUtility.ToJson(gD);
+        File.WriteAllText(completedfilePath, savedJsonData);
+    }
+
+    public void loadGameData()
+    {
+        if (File.Exists(completedfilePath))
+        {
+            string loadedJson = File.ReadAllText(completedfilePath);
+            gD = JsonUtility.FromJson<gameData>(loadedJson);
+        }
+        else
+        {
+            resetGameData();
+        }
+
+        money = gD.money;
+        gunBehaviour.reloadtime = gD.currentShootSpeed;
+        player.GetComponent<HealthSystem>().maxHealth = gD.currentMaxHealth;
+        gunBehaviour.damage = gD.currentBulletDamage;
+        gD.currentMaxSpeed = player.GetComponent<CharacterMovement>().maxSpeed = gD.currentMaxSpeed;
+        roundManager.highestRound = gD.highestRound;
+
+        storeManager.fireSpeedLevel = gD.shootSpeedLevel;
+        //storeManager.maxhealth
+        storeManager.damageLevel = gD.BulletDamageLevel;
+        storeManager.moveSpeedLevel = gD.maxSpeedLevel;
+    }
+
+    public void resetGameData()
+    {
+        money = 0;
+        gunBehaviour.reloadtime = defaultShootSpeed;
+        player.GetComponent<HealthSystem>().maxHealth = defaultMaxHealth;
+        gunBehaviour.damage = defaultBulletDamage;
+        gD.currentMaxSpeed = player.GetComponent<CharacterMovement>().maxSpeed = defaultMaxMoveSpeed;
+        roundManager.highestRound = 0;
+
+        storeManager.fireSpeedLevel = 0;
+        //storeManager.maxhealth
+        storeManager.damageLevel = 0;
+        storeManager.moveSpeedLevel = 0;
+
+        saveGameData();
     }
 
     public void finishGame()
@@ -111,5 +216,22 @@ public class GameManager : MonoBehaviour
         {
             return false;
         }
+    }
+
+    private void OnApplicationPause(bool pauseStatus)
+    {
+        if (pauseStatus)
+        {
+            saveGameData();
+        }
+        else
+        {
+            loadGameData();
+        }
+    }
+
+    void OnApplicationQuit()
+    {
+        saveGameData();
     }
 }

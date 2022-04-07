@@ -14,12 +14,21 @@ public class StoreManager : MonoBehaviour
     public int damageLevel;
 
     [Space]
+    public float reloadDecrease = -0.1f;
+    public float movementIncrease = 0.5f;
+    public float damageIncrease = 0.05f;
+
+    [Space]
     public Slider fireSpeedSlider;
     public Slider moveSpeedSlider;
     public Slider damageSlider;
 
     [Space]
     public Text[] ButtonTexts;
+
+    public Text shootSpeedImprovement;
+    public Text moveSpeedImprovement;
+    public Text bulletDamageImprovement;
 
     void FixedUpdate()
     {
@@ -28,9 +37,26 @@ public class StoreManager : MonoBehaviour
         damageSlider.value = Mathf.Lerp(damageSlider.value, damageLevel, david);
     }
 
+    void Start()
+    {
+        Invoke("initialise", 0.1f);
+    }
+
+    void initialise()
+    {
+        for (int i = 0; i < ButtonTexts.Length; i++)
+        {
+            ButtonTexts[i].text = "$" + cost;
+        }
+
+        shootSpeedImprovement.text = reloadDecrease.ToString("0.0") + "!";
+        moveSpeedImprovement.text = movementIncrease.ToString("0.0") + "!";
+        bulletDamageImprovement.text = damageIncrease.ToString("0.00") + "!";
+    }
+
     public void upgradeFireSpeed()
     {
-        if (FindObjectOfType<GameManager>().money > cost)
+        if (FindObjectOfType<GameManager>().money >= cost)
         {
             if (fireSpeedLevel < 10)
             {
@@ -45,13 +71,13 @@ public class StoreManager : MonoBehaviour
                 ButtonTexts[i].text = "$" + cost;
             }
 
-            FindObjectOfType<Shoot>().increaseShootRate();
+            FindObjectOfType<Shoot>().increaseShootRate(reloadDecrease);
         }
     }
 
     public void upgradeMoveSpeed()
     {
-        if (FindObjectOfType<GameManager>().money > cost)
+        if (FindObjectOfType<GameManager>().money >= cost)
         {
             if (moveSpeedLevel < 10)
             {
@@ -66,13 +92,13 @@ public class StoreManager : MonoBehaviour
                 ButtonTexts[i].text = "$" + cost;
             }
 
-            FindObjectOfType<CharacterMovement>().maxSpeed += 0.5f;
+            FindObjectOfType<CharacterMovement>().maxSpeed += movementIncrease;
         }
     }
 
     public void upgradeDamage()
     {
-        if (FindObjectOfType<GameManager>().money > cost)
+        if (FindObjectOfType<GameManager>().money >= cost)
         {
             if (damageLevel < 10)
             {
@@ -87,7 +113,7 @@ public class StoreManager : MonoBehaviour
                 ButtonTexts[i].text = "$" + cost;
             }
 
-            FindObjectOfType<Shoot>().damage += 0.05f;
+            FindObjectOfType<Shoot>().damage += damageIncrease;
         }
     }
 }

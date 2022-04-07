@@ -20,12 +20,15 @@ public class HealthSystem : MonoBehaviour
     void Start()
     {
         currentHealth = maxHealth;
+        healthSlider.maxValue = maxHealth;
     }
 
     void FixedUpdate()
     {
         healthSlider.value = Mathf.Lerp(healthSlider.value, currentHealth, lerpSpeed);
         sliderImage.color = Color.Lerp(sliderImage.color, healthColours.Evaluate(currentHealth / 100), lerpSpeed);
+
+        healthSlider.maxValue = maxHealth;
     }
 
     public void looseHealth()

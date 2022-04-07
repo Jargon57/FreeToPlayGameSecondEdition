@@ -7,21 +7,24 @@ public class enemySpawner : MonoBehaviour
     public GameObject enemyToSpawn;
     public AnimationCurve amountToSpawnPerRound;
     public RoundManager roundManager;
+    public GameObject spawnParticle;
 
     Transform spawnPos;
 
     int index;
-    float amountToSpawn;
+    int amountToSpawn;
 
-    float speedToSpawn;
+    public float speedToSpawn;
 
     public void startRound(int currentRound_)
     {
         //currentRound = currentRound_;
 
-        amountToSpawn = amountToSpawnPerRound.Evaluate(currentRound_);
+        amountToSpawn = (int)amountToSpawnPerRound.Evaluate(currentRound_);
 
-        InvokeRepeating("spawnEnenmy", 0, speedToSpawn);
+        InvokeRepeating("spawnEnemy", 0, speedToSpawn);
+
+        index = 0;
     }
 
     void spawnEnemy()
@@ -34,11 +37,16 @@ public class enemySpawner : MonoBehaviour
             Vector3 randomoffset = new Vector3(randomX, randomY, 0);
             GameObject enemyInstance_ = Instantiate(enemyToSpawn, transform.position + randomoffset, Quaternion.identity);
 
+            GameObject particleInstance = Instantiate(spawnParticle, enemyInstance_.transform.position, Quaternion.identity);
+            particleInstance.SetActive(true);
+            Destroy(particleInstance, 1f);
+
             index++;
         }
         else
         {
             CancelInvoke("spawnEnemy");
+            
         }
 
     }
