@@ -41,6 +41,11 @@ public class HealthSystem : MonoBehaviour
         }
     }
 
+    public void startGame()
+    {
+        currentHealth = maxHealth;
+    }
+
     public void dieAndReset()
     {
         FindObjectOfType<GameManager>().finishGame();

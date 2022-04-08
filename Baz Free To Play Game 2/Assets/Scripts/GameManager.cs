@@ -42,6 +42,7 @@ public class GameManager : MonoBehaviour
     public GameObject menuUIElements;
 
     public Text moneyText;
+    public Text highScoreText;
 
     [Space]
     public GameObject player;
@@ -54,6 +55,7 @@ public class GameManager : MonoBehaviour
     public Shoot gunBehaviour;
     public RoundManager roundManager;
     public StoreManager storeManager;
+    public HealthSystem healthSystem;
 
     gameData gD;
 
@@ -66,6 +68,7 @@ public class GameManager : MonoBehaviour
         gunBehaviour = FindObjectOfType<Shoot>();
         roundManager = FindObjectOfType<RoundManager>();
         storeManager = FindObjectOfType<StoreManager>();
+        healthSystem = FindObjectOfType<HealthSystem>();
 
         loadGameData();
     }
@@ -93,7 +96,7 @@ public class GameManager : MonoBehaviour
         gD.highestRound = roundManager.highestRound;
 
         gD.shootSpeedLevel = storeManager.fireSpeedLevel;
-        //gD.maxHealthLevel
+        gD.maxHealthLevel = storeManager.healthLevel;
         gD.BulletDamageLevel = storeManager.damageLevel;
         gD.maxSpeedLevel = storeManager.moveSpeedLevel;
 
@@ -121,7 +124,7 @@ public class GameManager : MonoBehaviour
         roundManager.highestRound = gD.highestRound;
 
         storeManager.fireSpeedLevel = gD.shootSpeedLevel;
-        //storeManager.maxhealth
+        storeManager.healthLevel = gD.maxHealthLevel;
         storeManager.damageLevel = gD.BulletDamageLevel;
         storeManager.moveSpeedLevel = gD.maxSpeedLevel;
     }
@@ -136,7 +139,7 @@ public class GameManager : MonoBehaviour
         roundManager.highestRound = 0;
 
         storeManager.fireSpeedLevel = 0;
-        //storeManager.maxhealth
+        healthSystem.maxHealth = defaultMaxHealth;
         storeManager.damageLevel = 0;
         storeManager.moveSpeedLevel = 0;
 
@@ -152,6 +155,8 @@ public class GameManager : MonoBehaviour
         player.SetActive(false);
 
         isInGame = false;
+
+        highScoreText.text = "Highscore: " + roundManager.highestRound.ToString("0");
     }
 
     public void startGame()
@@ -167,6 +172,8 @@ public class GameManager : MonoBehaviour
         isInGame = true;
 
         player.SetActive(true);
+
+        healthSystem.startGame();
     }
 
     public void addMoney(int amount)

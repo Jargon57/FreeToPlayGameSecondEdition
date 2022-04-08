@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class RoundManager : MonoBehaviour
 {
     public int currentRound;
-    [HideInInspector] public int highestRound;
+    public int highestRound = 0;
 
     public Text roundCounter;
 
@@ -60,14 +60,6 @@ public class RoundManager : MonoBehaviour
         }
     }
 
-    void Update()
-    {
-        if (Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.R))
-        {
-            PlayerPrefs.SetInt("currentRound", 1);
-        }
-    }
-
     void checkForEnemyDeath()
     {
         //means there are less enemies on the screen then there are in the list
@@ -90,25 +82,13 @@ public class RoundManager : MonoBehaviour
             FindObjectOfType<HealthSystem>().dieAndReset();
         }
         currentRound = 0;
+
         for (int i = 0; i < enemiesOnScreen.Count; i++)
         {
-            if (enemiesOnScreen[i].GetComponent<EnemyBehaviour>())
-            {
-                enemiesOnScreen[i].GetComponent<EnemyBehaviour>().Die();
-            }
-            else
-            {
-                enemiesOnScreen[i].GetComponent<RangedEnemyBehaviour>().Die();
-            }
-            //Destroy(enemiesOnScreen[i]);
+            Destroy(enemiesOnScreen[i]);
         }
 
         enemiesOnScreen.Clear();
-
-        if (currentRound > highestRound)
-        {
-            highestRound = currentRound;
-        }
     }
 
     void startRound()
@@ -128,6 +108,11 @@ public class RoundManager : MonoBehaviour
             }
 
             roundCounter.GetComponent<Animator>().Play("New Round");
+
+            if (currentRound > highestRound)
+            {
+                highestRound = currentRound;
+            }
         }
     }
 
