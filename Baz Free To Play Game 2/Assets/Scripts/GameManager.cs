@@ -17,6 +17,7 @@ public struct gameData
     public int maxHealthLevel;
     public int BulletDamageLevel;
     public int maxSpeedLevel;
+    public int cost;
 }
 
 public class GameManager : MonoBehaviour
@@ -99,6 +100,7 @@ public class GameManager : MonoBehaviour
         gD.maxHealthLevel = storeManager.healthLevel;
         gD.BulletDamageLevel = storeManager.damageLevel;
         gD.maxSpeedLevel = storeManager.moveSpeedLevel;
+        gD.cost = storeManager.cost;
 
         string savedJsonData = JsonUtility.ToJson(gD);
         File.WriteAllText(completedfilePath, savedJsonData);
@@ -127,21 +129,23 @@ public class GameManager : MonoBehaviour
         storeManager.healthLevel = gD.maxHealthLevel;
         storeManager.damageLevel = gD.BulletDamageLevel;
         storeManager.moveSpeedLevel = gD.maxSpeedLevel;
+        storeManager.cost = gD.cost;
     }
 
     public void resetGameData()
     {
         money = 0;
         gunBehaviour.reloadtime = defaultShootSpeed;
-        player.GetComponent<HealthSystem>().maxHealth = defaultMaxHealth;
+        healthSystem.maxHealth = defaultMaxHealth;
         gunBehaviour.damage = defaultBulletDamage;
         gD.currentMaxSpeed = player.GetComponent<CharacterMovement>().maxSpeed = defaultMaxMoveSpeed;
         roundManager.highestRound = 0;
 
         storeManager.fireSpeedLevel = 0;
-        healthSystem.maxHealth = defaultMaxHealth;
+        storeManager.healthLevel = 0;
         storeManager.damageLevel = 0;
         storeManager.moveSpeedLevel = 0;
+        storeManager.cost = 5;
 
         saveGameData();
     }
@@ -162,7 +166,6 @@ public class GameManager : MonoBehaviour
     public void startGame()
     {
         //load game Data
-        money = PlayerPrefs.GetInt("money");
         //menuUIElements.SetActive(false);
         // gameUIElements.SetActive(true);
 
@@ -180,8 +183,6 @@ public class GameManager : MonoBehaviour
     {
         money += amount;
 
-        PlayerPrefs.SetInt("money", money);
-
         moneyText.text = "$" + money.ToString("0");
 
         moneyAni.Play("MoneyIdle");
@@ -195,6 +196,8 @@ public class GameManager : MonoBehaviour
             isInStore = false;
             shopAni.SetBool("store", false);
 
+            saveGameData();
+
             if (isInGame)
             {
                 PlayerPrefs.SetInt("isInStore", 0);
@@ -206,6 +209,7 @@ public class GameManager : MonoBehaviour
             isInStore = true;
             shopAni.SetBool("store", true);
 
+            
             if (isInGame)
             {
                 PlayerPrefs.SetInt("isInStore", 1);

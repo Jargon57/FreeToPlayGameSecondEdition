@@ -26,7 +26,7 @@ public class HealthSystem : MonoBehaviour
     void FixedUpdate()
     {
         healthSlider.value = Mathf.Lerp(healthSlider.value, currentHealth, lerpSpeed);
-        sliderImage.color = Color.Lerp(sliderImage.color, healthColours.Evaluate(currentHealth / 100), lerpSpeed);
+        sliderImage.color = Color.Lerp(sliderImage.color, healthColours.Evaluate(healthSlider.normalizedValue), lerpSpeed);
 
         healthSlider.maxValue = maxHealth;
     }

@@ -38,7 +38,7 @@ public class CharacterMovement : MonoBehaviour
 
         cam = Camera.main;
 
-        Application.targetFrameRate = 144;
+        //Application.targetFrameRate = 144;
     }
 
     void Update()

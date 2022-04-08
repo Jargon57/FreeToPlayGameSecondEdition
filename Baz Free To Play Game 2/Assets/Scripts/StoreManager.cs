@@ -47,7 +47,13 @@ public class StoreManager : MonoBehaviour
         fireSpeedSlider.value = Mathf.Lerp(fireSpeedSlider.value, fireSpeedLevel, david);
         moveSpeedSlider.value = Mathf.Lerp(moveSpeedSlider.value, moveSpeedLevel, david);
         damageSlider.value = Mathf.Lerp(damageSlider.value, damageLevel, david);
+        healthSlider.value = Mathf.Lerp(healthSlider.value, healthLevel, david);
         shopMoneyText.text = "You have $" + gameManager.money.ToString("00");
+
+        for (int i = 0; i < ButtonTexts.Length; i++)
+        {
+            ButtonTexts[i].text = "$" + cost;
+        }
     }
 
     void Start()
@@ -77,12 +83,7 @@ public class StoreManager : MonoBehaviour
 
         FindObjectOfType<GameManager>().addMoney(-cost);
 
-        cost = (int)(cost * 1.5f);
-
-        for (int i = 0; i < ButtonTexts.Length; i++)
-        {
-            ButtonTexts[i].text = "$" + cost;
-        }
+        cost = (int)(cost * moneyScaleAmount);
     }
 
     public void upgradeFireSpeed()
@@ -92,11 +93,11 @@ public class StoreManager : MonoBehaviour
             if (fireSpeedLevel < 10)
             {
                 fireSpeedLevel++;
+
+                upgradeGeneral();
+
+                FindObjectOfType<Shoot>().increaseShootRate(reloadDecrease);
             }
-
-            upgradeGeneral();
-
-            FindObjectOfType<Shoot>().increaseShootRate(reloadDecrease);
         }
     }
 
@@ -107,11 +108,11 @@ public class StoreManager : MonoBehaviour
             if (moveSpeedLevel < 10)
             {
                 moveSpeedLevel++;
+
+                upgradeGeneral();
+
+                FindObjectOfType<CharacterMovement>().maxSpeed += movementIncrease;
             }
-
-            upgradeGeneral();
-
-            FindObjectOfType<CharacterMovement>().maxSpeed += movementIncrease;
         }
     }
 
@@ -122,11 +123,11 @@ public class StoreManager : MonoBehaviour
             if (damageLevel < 10)
             {
                 damageLevel++;
+
+                upgradeGeneral();
+
+                FindObjectOfType<Shoot>().damage += damageIncrease;
             }
-
-            upgradeGeneral();
-
-            FindObjectOfType<Shoot>().damage += damageIncrease;
         }
     }
 
@@ -137,12 +138,12 @@ public class StoreManager : MonoBehaviour
             if (healthLevel < 10)
             {
                 healthLevel++;
+
+                upgradeGeneral();
+
+                healthSystem.maxHealth += healthIncrease;
+                // FindObjectOfType<HealthSystem>().maxHealth += healthIncrease;
             }
-
-            upgradeGeneral();
-
-            healthSystem.maxHealth += healthIncrease;
-            // FindObjectOfType<HealthSystem>().maxHealth += healthIncrease;
         }
     }
 }
