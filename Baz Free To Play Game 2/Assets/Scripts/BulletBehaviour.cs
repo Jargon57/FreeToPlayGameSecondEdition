@@ -20,6 +20,8 @@ public class BulletBehaviour : MonoBehaviour
     public GameObject explosion;
     public GameObject enemyExplosion;
 
+    public GameObject explosionSound;
+
     Transform trail_;
 
     void Start()
@@ -34,6 +36,8 @@ public class BulletBehaviour : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D col_)
     {
+
+
         /*
         //get a list of all colliders in a radius
         Collider2D[] cols_ = Physics2D.OverlapCircleAll(transform.position, blastRadius);
@@ -61,18 +65,31 @@ public class BulletBehaviour : MonoBehaviour
         }
         */
 
+        AudioSource explosionSound_ = Instantiate(explosionSound).GetComponent<AudioSource>();
+
+        explosionSound_.pitch = Random.Range(0.8f, 1.2f);
+
+        Destroy(explosionSound_.gameObject, 2f);
+
         if (!isEnemyBullet)
         {
             if (col_.gameObject.CompareTag("Enemy"))
             {
                 col_.gameObject.GetComponent<EnemyHealth>().takeDamage(baseDamage);
                 FindObjectOfType<GameManager>().addMoney(1);
+
+                col_.gameObject.GetComponent<AudioSource>().pitch = Random.Range(0.8f, 1.2f);
+                col_.gameObject.GetComponent<AudioSource>().Play();
             }
         }
 
         if (col_.gameObject.CompareTag("Player"))
         {
             col_.gameObject.GetComponent<HealthSystem>().looseHealth();
+
+            col_.gameObject.GetComponent<AudioSource>().pitch = Random.Range(0.8f, 1.2f);
+            col_.gameObject.GetComponent<AudioSource>().Play();
+
             Destroy(gameObject);
         }
 
@@ -92,9 +109,6 @@ public class BulletBehaviour : MonoBehaviour
             GameObject deathexplosion_ = Instantiate(enemyExplosion, transform.position, transform.rotation);
             Destroy(deathexplosion_, 2f);
         }
-
-
-
 
         Destroy(gameObject);
     }

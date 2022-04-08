@@ -5013,3 +5013,4 @@ MonoBehaviour:
   trail: {fileID: 1052325296788205058, guid: 740f505eece009f43bc04fea418011ca, type: 3}
   explosion: {fileID: 4220323075403382501, guid: 8ca49b50a05fb264b924ffea160c9563, type: 3}
   enemyExplosion: {fileID: 4863342128419971157, guid: 4ebb899228c5bdf42b36a8fd4b6f24f5, type: 3}
+  explosionSound: {fileID: 4711736948217317292, guid: 62d41fb07cecb4b4a8d53f8cdb904090, type: 3}

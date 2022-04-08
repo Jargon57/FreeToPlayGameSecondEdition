@@ -60,6 +60,8 @@ public class EnemyHealth : MonoBehaviour
         //insan
         GameObject deathexplosion_ = Instantiate(deathParticle, transform.position, transform.rotation);
 
+        deathexplosion_.GetComponent<AudioSource>().pitch = Random.Range(0.8f, 1.2f);
+
         Destroy(deathexplosion_, 2f);
 
         FindObjectOfType<GameManager>().addMoney(10);

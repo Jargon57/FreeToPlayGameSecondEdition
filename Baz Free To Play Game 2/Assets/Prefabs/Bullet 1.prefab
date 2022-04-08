@@ -4827,7 +4827,7 @@ GameObject:
   - component: {fileID: 84210581127235341}
   - component: {fileID: -254958744586948953}
   m_Layer: 0
-  m_Name: Bullet
+  m_Name: Bullet 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5012,3 +5012,5 @@ MonoBehaviour:
     m_RotationOrder: 4
   trail: {fileID: 1052325296788205058, guid: e3c5a10c69a325b4090da1b4b4915e99, type: 3}
   explosion: {fileID: 4220323075403382501, guid: 8ca49b50a05fb264b924ffea160c9563, type: 3}
+  enemyExplosion: {fileID: 0}
+  explosionSound: {fileID: 4711736948217317292, guid: 62d41fb07cecb4b4a8d53f8cdb904090, type: 3}

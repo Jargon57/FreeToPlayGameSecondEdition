@@ -72,9 +72,11 @@ public class Shoot : MonoBehaviour
         GameObject bulletInstance = Instantiate(bullet, shootPos.position, shootPos.rotation);
 
         bulletInstance.GetComponent<Rigidbody2D>().AddForce(bulletInstance.transform.right * shootForce);
+        bulletInstance.GetComponent<AudioSource>().pitch = Random.Range(0.8f, 1.2f);
 
         bulletInstance.GetComponent<BulletBehaviour>().baseDamage = damage;
 
         Destroy(particleInstnace, 2f);
+
     }
 }

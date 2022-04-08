@@ -58,6 +58,7 @@ public class GameManager : MonoBehaviour
     public StoreManager storeManager;
     public HealthSystem healthSystem;
 
+    AudioSource clickSound;
     gameData gD;
 
     void Awake()
@@ -85,6 +86,8 @@ public class GameManager : MonoBehaviour
 
         //money = PlayerPrefs.GetInt("money");
         moneyText.text = "$" + money.ToString("0");
+
+        clickSound = GetComponent<AudioSource>();
     }
 
     public void saveGameData()
@@ -177,6 +180,9 @@ public class GameManager : MonoBehaviour
         player.SetActive(true);
 
         healthSystem.startGame();
+
+        clickSound.pitch = Random.Range(0.8f, 1.2f);
+        clickSound.Play();
     }
 
     public void addMoney(int amount)
@@ -190,6 +196,8 @@ public class GameManager : MonoBehaviour
 
     public void enterStore()
     {
+        clickSound.pitch = Random.Range(0.8f, 1.2f);
+        clickSound.Play();
         //Debug.Log(isInGame);
         if (isInStore)
         {
@@ -227,6 +235,13 @@ public class GameManager : MonoBehaviour
         {
             return false;
         }
+    }
+
+    public void Exit()
+    {
+        clickSound.pitch = Random.Range(0.8f, 1.2f);
+        clickSound.Play();
+        Application.Quit();
     }
 
     private void OnApplicationPause(bool pauseStatus)

@@ -105,6 +105,8 @@ public class EnemyBehaviour : MonoBehaviour
     {
         GameObject deathexplosion_ = Instantiate(deathExplosion, transform.position, transform.rotation);
 
+        deathExplosion.GetComponent<AudioSource>().pitch = Random.Range(0.8f, 1.2f);
+
         Destroy(deathexplosion_, 2f);
 
         roundManager.enemiesOnScreen.Remove(gameObject);
@@ -117,6 +119,9 @@ public class EnemyBehaviour : MonoBehaviour
         if (collision_.gameObject.CompareTag("Player"))
         {
             collision_.gameObject.GetComponent<HealthSystem>().looseHealth();
+
+            collision_.gameObject.GetComponent<AudioSource>().pitch = Random.Range(0.8f, 1.2f);
+            collision_.gameObject.GetComponent<AudioSource>().Play();
 
             Die();
         }

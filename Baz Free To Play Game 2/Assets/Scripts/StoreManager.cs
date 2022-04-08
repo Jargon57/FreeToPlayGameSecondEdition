@@ -6,7 +6,8 @@ using UnityEngine.UI;
 public class StoreManager : MonoBehaviour
 {
     public float david = 0.5f;
-    public float moneyScaleAmount = 1.5f;
+    public AnimationCurve moneyScaleAmount;// = 1.5f;
+    public float scale;
 
     public int cost = 10;
 
@@ -14,6 +15,8 @@ public class StoreManager : MonoBehaviour
     public int moveSpeedLevel;
     public int damageLevel;
     public int healthLevel;
+
+    int totalLevel;
 
     [Space]
     public float reloadDecrease = -0.1f;
@@ -41,6 +44,7 @@ public class StoreManager : MonoBehaviour
     public Text shopMoneyText;
 
     public HealthSystem healthSystem;
+    AudioSource chaChingSound;
 
     void FixedUpdate()
     {
@@ -49,6 +53,9 @@ public class StoreManager : MonoBehaviour
         damageSlider.value = Mathf.Lerp(damageSlider.value, damageLevel, david);
         healthSlider.value = Mathf.Lerp(healthSlider.value, healthLevel, david);
         shopMoneyText.text = "You have $" + gameManager.money.ToString("00");
+
+        totalLevel = fireSpeedLevel + damageLevel + healthLevel;
+        scale = moneyScaleAmount.Evaluate(totalLevel);
 
         for (int i = 0; i < ButtonTexts.Length; i++)
         {
@@ -59,6 +66,7 @@ public class StoreManager : MonoBehaviour
     void Start()
     {
         gameManager = FindObjectOfType<GameManager>();
+        chaChingSound = GetComponent<AudioSource>();
 
         Invoke("initialise", 0.1f);
     }
@@ -83,7 +91,10 @@ public class StoreManager : MonoBehaviour
 
         FindObjectOfType<GameManager>().addMoney(-cost);
 
-        cost = (int)(cost * moneyScaleAmount);
+        cost = (int)(cost * scale);
+
+        chaChingSound.pitch = Random.Range(0.95f, 1.05f);
+        chaChingSound.Play();
     }
 
     public void upgradeFireSpeed()
